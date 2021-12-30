@@ -1,0 +1,23 @@
+{
+  "name": "mini_program_music",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jswxxkf/wx_mp_music.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jswxxkf/wx_mp_music/issues"
+  },
+  "homepage": "https://github.com/jswxxkf/wx_mp_music#readme",
+  "dependencies": {
+    "@vant/weapp": "^1.10.0"
+  }
+}

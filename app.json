@@ -3,12 +3,13 @@
     "pages/home-video/index",
     "pages/home-music/index",
     "components/video-item-v1/index",
-    "pages/detail-video/index"
+    "pages/detail-video/index",
+    "pages/detail-search/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarBackgroundColor": "#fafafa",
+    "navigationBarTitleText": "红枫のMUSIC",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

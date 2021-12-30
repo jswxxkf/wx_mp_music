@@ -17,6 +17,12 @@
           "pathName": "pages/detail-video/index",
           "query": "id=14480854",
           "scene": null
+        },
+        {
+          "name": "home-music",
+          "pathName": "pages/home-music/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

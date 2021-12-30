@@ -1,2 +1,12 @@
-<!--pages/detail-video/index.wxml-->
-<text>pages/detail-video/index.wxml</text>
+<!-- pages/detail-video/index.wxml -->
+<video
+  src="{{mvURLInfo.url}}"
+  class="video"
+  autoplay
+  loop
+  danmu-list="{{danmuList}}"
+></video>
+
+<block wx:for="{{100}}" wx:key="*this">
+  <view>列表数据{{item}}</view>
+</block>
