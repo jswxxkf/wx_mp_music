@@ -1,0 +1,21 @@
+<!--components/video-item-v2/index.wxml-->
+<wxs src="../../utils/format.wxs" module="formatter"></wxs>
+<view class="related-video-item">
+  <!-- 左侧缩略图 -->
+  <view class="cover">
+    <image class="image" src="{{item.coverUrl}}" mode="widthFix" />
+    <view class="play-count">
+      <image
+        class="play-icon"
+        src="../../assets/images/icons/play_icon.png"
+        mode="widthFix"
+      ></image>
+      <view>{{formatter.formatCount(item.playTime)}}</view>
+    </view>
+  </view>
+  <!-- 右侧标题+up主 -->
+  <view class="info">
+    <view class="title">{{item.title}}</view>
+    <view class="uploader">{{item.creator && item.creator[0].userName}}</view>
+  </view>
+</view>

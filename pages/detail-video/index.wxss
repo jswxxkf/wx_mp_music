@@ -3,8 +3,48 @@ page {
   padding-top: 225px;
 }
 
+/* 播放器 */
 .video {
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+/* MV详情 */
+.mv-detail {
+  display: flex;
+  flex-direction: column;
+  padding: 24rpx;
+}
+
+.mv-detail .title {
+  font-weight: 700;
+}
+
+.mv-detail .title,
+.mv-detail .medium {
+  margin-bottom: 10rpx;
+}
+
+.mv-detail .medium,
+.mv-detail .bottom {
+  display: flex;
+  justify-content: flex-start;
+  color: #717476;
+  font-size: 25rpx;
+}
+
+.mv-detail .sep {
+  margin: 0 10rpx;
+}
+
+/* 相关推荐视频 */
+.related-videos {
+  display: flex;
+  flex-direction: column;
+  padding: 24rpx;
+}
+
+.related-videos .title {
+  margin-bottom: 28rpx;
 }

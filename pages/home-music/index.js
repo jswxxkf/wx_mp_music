@@ -34,7 +34,6 @@ Page({
     // 1.获取图片的高度(获取某一个组件的高度)
     throttledQueryRect(".swiper-image").then((res) => {
       const rect = res[0];
-      console.log(rect);
       this.setData({ swiperHeight: rect.height });
     });
   },

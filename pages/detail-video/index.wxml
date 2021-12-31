@@ -1,4 +1,6 @@
 <!-- pages/detail-video/index.wxml -->
+<!-- 详情页顶部播放器 -->
+<wxs src="../../utils/format.wxs" module="formatter"></wxs>
 <video
   src="{{mvURLInfo.url}}"
   class="video"
@@ -7,6 +9,24 @@
   danmu-list="{{danmuList}}"
 ></video>
 
-<block wx:for="{{100}}" wx:key="*this">
-  <view>列表数据{{item}}</view>
-</block>
+<!-- MV详情 -->
+<view class="mv-detail">
+  <view class="title">{{mvDetail.name}}</view>
+  <view class="medium">
+    <view class="artist">{{mvDetail.artistName}}</view>
+    <view class="sep">-</view>
+  </view>
+  <view class="bottom">
+    <view class="play-count">{{formatter.formatCount(mvDetail.playCount)}}次播放</view>
+    <view class="sep">-</view>
+    <view class="release-date">{{mvDetail.publishTime}}</view>
+  </view>
+</view>
+
+<!-- 相关推荐视频 -->
+<view class="related-videos">
+  <view class="title">相关推荐视频</view>
+  <block wx:for="{{relatedVideos}}" wx:key="vid">
+    <related-video-item item="{{item}}" />
+  </block>
+</view>

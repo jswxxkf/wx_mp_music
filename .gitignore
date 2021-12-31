@@ -1,2 +1,6 @@
+# IDE
+.vscode
+.idea
+# distributions
 miniprogram_npm
 node_modules
