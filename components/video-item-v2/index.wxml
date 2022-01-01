@@ -1,5 +1,5 @@
 <!--components/video-item-v2/index.wxml-->
-<wxs src="../../utils/format.wxs" module="formatter"></wxs>
+<wxs src="/utils/format.wxs" module="formatter"></wxs>
 <view class="related-video-item">
   <!-- 左侧缩略图 -->
   <view class="cover">
@@ -7,7 +7,7 @@
     <view class="play-count">
       <image
         class="play-icon"
-        src="../../assets/images/icons/play_icon.png"
+        src="/assets/images/icons/play_icon.png"
         mode="widthFix"
       ></image>
       <view>{{formatter.formatCount(item.playTime)}}</view>

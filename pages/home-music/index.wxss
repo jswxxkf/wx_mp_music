@@ -1,10 +1,22 @@
 /* pages/home-music/index.wxss */
+page {
+  padding: 0 20rpx;
+}
+
 .van-search__content {
   background-color: #fff !important;
 }
 
+.van-search {
+  padding: 10px 0 !important;
+}
+
 /* 轮播图样式 */
 .swiper {
+  border-radius: 10rpx;
+  overflow: hidden;
+  /* 真机webview渲染圆角的bug解决方案 */
+  transform: translateY(0);
 }
 
 .swiper-item {
@@ -13,4 +25,9 @@
 
 .swiper-item .swiper-image {
   width: 100%;
+}
+
+/* 推荐歌曲列表 */
+.song-list {
+  padding-top: 15rpx;
 }

@@ -1,9 +1,10 @@
 <!-- pages/detail-video/index.wxml -->
 <!-- 详情页顶部播放器 -->
-<wxs src="../../utils/format.wxs" module="formatter"></wxs>
+<wxs src="/utils/format.wxs" module="formatter"></wxs>
 <video
   src="{{mvURLInfo.url}}"
   class="video"
+  referrer-policy="origin"
   autoplay
   loop
   danmu-list="{{danmuList}}"
@@ -17,7 +18,9 @@
     <view class="sep">-</view>
   </view>
   <view class="bottom">
-    <view class="play-count">{{formatter.formatCount(mvDetail.playCount)}}次播放</view>
+    <view class="play-count"
+      >{{formatter.formatCount(mvDetail.playCount)}}次播放</view
+    >
     <view class="sep">-</view>
     <view class="release-date">{{mvDetail.publishTime}}</view>
   </view>
