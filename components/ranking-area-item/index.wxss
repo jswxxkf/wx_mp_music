@@ -1,0 +1,64 @@
+/* components/ranking-area-item/index.wxss */
+.ranking-area-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  width: 490rpx;
+  height: 220rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+}
+
+.info .title {
+  font-size: 34rpx;
+  font-weight: 500;
+  margin-bottom: 10rpx;
+}
+
+.info .song {
+  font-size: 26rpx;
+  line-height: 1.5;
+  /* 显示一行 */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.dividing-line {
+  width: 300rpx;
+  height: 2rpx;
+  background-color: #ccc;
+  margin-bottom: 10rpx;
+}
+
+.image-area {
+  display: flex;
+  position: relative;
+  width: 220rpx;
+  height: 220rpx;
+  border-radius: 12rpx;
+}
+
+.image-area .image {
+  width: 100%;
+}
+
+.play-count {
+  position: absolute;
+  padding-right: 10rpx;
+  text-align: right;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 26rpx;
+  line-height: 1.5;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+}

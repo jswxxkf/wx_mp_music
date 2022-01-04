@@ -29,11 +29,35 @@
 </swiper>
 
 <!-- 推荐歌曲列表 -->
-<view class="recommended-songs">
+<view wx:if="{{recommendSongs.length > 0}}" class="recommended-songs">
   <area-header title="推荐歌曲" showRight="{{true}}"></area-header>
   <view class="song-list">
     <block wx:for="{{recommendSongs}}" wx:key="id">
       <song-item-v1 item="{{item}}"></song-item-v1>
+    </block>
+  </view>
+</view>
+
+<!-- 热门歌单 -->
+<song-menu-area
+  wx:if="{{hotSongMenu.length > 0}}"
+  title="热门歌单"
+  songMenu="{{hotSongMenu}}"
+></song-menu-area>
+
+<!-- 推荐歌单 -->
+<song-menu-area
+  wx:if="{{recommendSongMenu.length > 0}}"
+  title="推荐歌单"
+  songMenu="{{recommendSongMenu}}"
+></song-menu-area>
+
+<!-- 巅峰榜 -->
+<view class="ranking">
+  <area-header title="巅峰榜" showRight="{{false}}"></area-header>
+  <view class="ranking-list">
+    <block wx:for="{{rankings}}" wx:key="index">
+      <ranking-area-item rankingItem="{{item}}"></ranking-area-item>
     </block>
   </view>
 </view>
