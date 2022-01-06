@@ -1,0 +1,55 @@
+/* components/song-item-v2/index.wxss */
+.song-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 30rpx;
+}
+
+.song-item:first-of-type {
+  margin-top: 20rpx;
+}
+
+.index {
+  width: 60rpx;
+  margin-right: 20rpx;
+  font-size: 30rpx;
+  line-height: 1.5;
+  font-weight: 700;
+  text-align: center;
+}
+
+.info {
+  width: 600rpx;
+}
+
+.info .name,
+.info .source {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.info .name {
+  font-size: 30rpx;
+  line-height: 1.5;
+  font-weight: 500;
+  margin-bottom: 5rpx;
+}
+
+.info .source {
+  font-size: 24rpx;
+  color: #666666;
+}
+
+.info .source .icon {
+  position: relative;
+  top: 4rpx;
+  margin-right: 15rpx;
+  width: 40rpx;
+  height: 20rpx;
+}
+
+.info .source .sep {
+  margin: 0 6rpx;
+}

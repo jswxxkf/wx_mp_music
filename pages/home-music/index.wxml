@@ -30,10 +30,14 @@
 
 <!-- 推荐歌曲列表 -->
 <view wx:if="{{recommendSongs.length > 0}}" class="recommended-songs">
-  <area-header title="推荐歌曲" showRight="{{true}}"></area-header>
+  <area-header
+    title="推荐歌曲"
+    showRight="{{true}}"
+    bind:click="handleMoreClick"
+  ></area-header>
   <view class="song-list">
     <block wx:for="{{recommendSongs}}" wx:key="id">
-      <song-item-v1 item="{{item}}"></song-item-v1>
+      <song-item-v1 class="song-item" item="{{item}}"></song-item-v1>
     </block>
   </view>
 </view>
@@ -57,7 +61,11 @@
   <area-header title="巅峰榜" showRight="{{false}}"></area-header>
   <view class="ranking-list">
     <block wx:for="{{rankings}}" wx:key="index">
-      <ranking-area-item rankingItem="{{item}}"></ranking-area-item>
+      <ranking-area-item
+        rankingItem="{{item}}"
+        bindtap="handleRankingItemClick"
+        data-idx="{{index}}"
+      ></ranking-area-item>
     </block>
   </view>
 </view>

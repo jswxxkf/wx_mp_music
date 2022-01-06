@@ -3,20 +3,13 @@ page {
   padding: 0 20rpx;
 }
 
-.van-search__content {
-  background-color: #fff !important;
-}
-
-.van-search {
-  padding: 10px 0 !important;
-}
-
 /* 轮播图样式 */
 .swiper {
   border-radius: 10rpx;
   overflow: hidden;
   /* 真机webview渲染圆角的bug解决方案 */
   transform: translateY(0);
+  margin-bottom: 20rpx;
 }
 
 .swiper-item {
@@ -28,6 +21,6 @@ page {
 }
 
 /* 推荐歌曲列表 */
-.song-list {
+/* .song-list {
   padding-top: 15rpx;
-}
+} */

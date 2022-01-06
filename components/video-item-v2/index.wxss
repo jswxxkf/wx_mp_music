@@ -17,6 +17,7 @@
   width: 240rpx;
   height: 100rpx;
   border-radius: 10rpx;
+  transform: translateY(0);
 }
 
 .cover .play-count {

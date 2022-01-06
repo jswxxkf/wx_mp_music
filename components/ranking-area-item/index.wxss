@@ -44,6 +44,7 @@
   width: 220rpx;
   height: 220rpx;
   border-radius: 12rpx;
+  transform: translateY(0);
 }
 
 .image-area .image {

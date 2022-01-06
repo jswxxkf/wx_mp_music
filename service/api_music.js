@@ -15,3 +15,10 @@ export function getSongMenu(cat = "全部", limit = 6, offset = 0) {
     offset,
   });
 }
+
+// 请求歌单详情数据
+export function getSongMenuDetail(id) {
+  return kfRequest.get("/playlist/detail/dynamic", {
+    id,
+  });
+}

@@ -3,3 +3,12 @@ page {
   box-sizing: border-box;
   background-color: #fafafa;
 }
+
+/* vant搜索框通用样式 */
+.van-search__content {
+  background-color: #fff !important;
+}
+
+.van-search {
+  padding: 10px 0 !important;
+}

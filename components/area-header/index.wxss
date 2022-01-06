@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: space-between;
   height: 88rpx;
-  margin-top: 5rpx;
+  margin-bottom: 10rpx;
 }
 
 .title {

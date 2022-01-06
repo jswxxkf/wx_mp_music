@@ -1,5 +1,5 @@
 // pages/home-music/index.js
-import { rankingStore } from "../../store/index";
+import { rankingStore, rankingMap } from "../../store/index";
 
 import { getBanners, getSongMenu } from "../../service/api_music";
 import queryRect from "../../utils/query-rect";
@@ -60,8 +60,21 @@ Page({
     });
   },
 
-  onUnload: function () {
-    // rankingStore.offState("newRanking", this.getNewRankingHandler);
+  // 更多点击跳转处理
+  handleMoreClick: function () {
+    this.navigateToDetailSongPage("hotRanking");
+  },
+
+  handleRankingItemClick: function (event) {
+    const idx = event.currentTarget.dataset.idx;
+    const rankingName = rankingMap[idx];
+    this.navigateToDetailSongPage(rankingName);
+  },
+
+  navigateToDetailSongPage: function (rankingName) {
+    wx.navigateTo({
+      url: `/pages/detail-songs/index?ranking=${rankingName}&type=rank`,
+    });
   },
 
   // 传入idx是为了保持数据的顺序性
@@ -77,5 +90,9 @@ Page({
       const newRankings = { ...this.data.rankings, [idx]: rankingObj };
       this.setData({ rankings: newRankings });
     };
+  },
+
+  onUnload: function () {
+    // rankingStore.offState("newRanking", this.getNewRankingHandler);
   },
 });

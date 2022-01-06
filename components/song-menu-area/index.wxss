@@ -4,6 +4,7 @@
   left: -20rpx;
   width: 100vw;
   white-space: nowrap;
+  margin-bottom: 20rpx;
 }
 
 .menu-item {
