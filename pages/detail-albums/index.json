@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "area-header": "/components/area-header/index",
+    "album-item": "/components/album-item/index"
+  }
+}

@@ -1,0 +1,13 @@
+<!--pages/detail-albums/index.wxml-->
+<view class="detail-albums">
+  <block wx:for="{{catData}}" wx:key="id">
+    <view class="header">
+      <area-header title="{{item.name}}" showRight="{{false}}"></area-header>
+    </view>
+    <view class="album-list">
+      <block wx:for="{{item.list}}" wx:key="id" wx:for-item="albumItem">
+        <album-item item="{{albumItem}}" bindtap="handleAlbumItemClick" data-id="{{albumItem.id}}"></album-item>
+      </block>
+    </view>
+  </block>
+</view>

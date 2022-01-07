@@ -1,0 +1,34 @@
+/* components/album-item/index.wxss */
+.album-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 340rpx;
+  margin-bottom: 20rpx;
+}
+
+.image {
+  display: flex;
+  width: 100%;
+  height: 300rpx;
+  border-radius: 16rpx;
+  transform: translateY(0);
+  margin-bottom: 10rpx;
+}
+
+.title {
+  font-size: 28rpx;
+  line-height: 1.2;
+  /* 显示两行 */
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -moz-box;
+  -moz-line-clamp: 2;
+  -moz-box-orient: vertical;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal;
+  overflow: hidden;
+}

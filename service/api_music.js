@@ -38,3 +38,10 @@ export function getSongMenuDetail(id) {
     id,
   });
 }
+
+/**
+ * 请求热门歌单分类数据
+ */
+export function getHotRankingCatagories() {
+  return kfRequest.get("/playlist/hot");
+}

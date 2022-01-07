@@ -29,5 +29,10 @@ Component({
         url: `/pages/detail-songs/index?id=${item.id}&type=menu`,
       });
     },
+    handleMoreClick: function () {
+      wx.navigateTo({
+        url: "/pages/detail-albums/index",
+      });
+    },
   },
 });

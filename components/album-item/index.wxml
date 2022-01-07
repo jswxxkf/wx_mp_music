@@ -1,0 +1,5 @@
+<!--components/album-item/index.wxml-->
+<view class="album-item">
+  <image class="image" src="{{item.coverImgUrl}}" mode="widthFix" />
+  <view class="title">{{item.name}}</view>
+</view>
