@@ -46,6 +46,7 @@ Page({
   },
 
   // 事件处理
+  // 点击搜索框，跳转搜索详情页
   handleSearchClick: function () {
     wx.navigateTo({
       url: "/pages/detail-search/index",
@@ -60,17 +61,19 @@ Page({
     });
   },
 
-  // 更多点击跳转处理
+  // 热门(推荐)歌单更多点击处理
   handleMoreClick: function () {
     this.navigateToDetailSongPage("hotRanking");
   },
 
+  // 底部巅峰榜中各榜单点击处理
   handleRankingItemClick: function (event) {
     const idx = event.currentTarget.dataset.idx;
     const rankingName = rankingMap[idx];
     this.navigateToDetailSongPage(rankingName);
   },
 
+  // 真正跳转进入歌单详情页
   navigateToDetailSongPage: function (rankingName) {
     wx.navigateTo({
       url: `/pages/detail-songs/index?ranking=${rankingName}&type=rank`,

@@ -3,6 +3,7 @@ export default function (selector) {
     const query = wx.createSelectorQuery();
     query.select(selector).boundingClientRect();
     query.exec((res) => {
+      // res中包含需要的宽高值
       resolve(res);
     });
   });

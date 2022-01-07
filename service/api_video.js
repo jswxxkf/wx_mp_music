@@ -13,7 +13,7 @@ export function getMVURL(id) {
 }
 
 /**
- * 请求MV详情
+ * 请求MV详情数据(包括播放量、歌手、标题等)
  * @param {number} mvid MV的id
  */
 export function getMVDetail(mvid) {

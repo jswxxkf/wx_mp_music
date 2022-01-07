@@ -10,6 +10,8 @@ class KFRequest {
         success: function (res) {
           resolve(res.data);
         },
+        // 失败时，本质就是要通过传入err回调reject，
+        // 而reject的执行也仅需将err作为入参，故可简写
         fail: reject,
       });
     });
