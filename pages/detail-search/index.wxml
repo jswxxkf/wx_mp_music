@@ -19,16 +19,29 @@
   ></area-header>
   <view class="hot-list">
     <block wx:for="{{hotKeywords}}" wx:key="first">
-      <view class="tag" bindtap="handleKeywordItemClick" data-keyword="{{item.first}}"> {{item.first}}</view>
+      <view
+        class="tag"
+        bindtap="handleKeywordItemClick"
+        data-keyword="{{item.first}}"
+      >
+        {{item.first}}</view
+      >
     </block>
   </view>
 </view>
 
 <!-- 建议搜索 -->
-<view class="search-suggest" wx:elif="{{searchValue.length && suggestSongs.length && !resultSongs.length}}">
+<view
+  class="search-suggest"
+  wx:elif="{{searchValue.length && suggestSongs.length && !resultSongs.length}}"
+>
   <view class="title">搜索"{{searchValue}}"</view>
   <block wx:for="{{suggestSongs}}" wx:key="keyword">
-    <view class="suggest-item" bindtap="handleKeywordItemClick" data-keyword="{{item.keyword}}">
+    <view
+      class="suggest-item"
+      bindtap="handleKeywordItemClick"
+      data-keyword="{{item.keyword}}"
+    >
       <image
         class="icon"
         mode="widthFix"
@@ -42,7 +55,10 @@
 </view>
 
 <!-- 搜索结果 -->
-<view class="search-result" wx:elif="{{searchValue.length && resultSongs.length}}">
+<view
+  class="search-result"
+  wx:elif="{{searchValue.length && resultSongs.length}}"
+>
   <view class="title">最佳匹配</view>
   <view class="matched-list">
     <block wx:for="{{resultSongs}}" wx:key="id">

@@ -22,7 +22,7 @@ export function getMVDetail(mvid) {
 
 /**
  * 获取相关视频
- * @param {number} id 
+ * @param {number} id
  */
 export function getRelatedVideo(id) {
   return kfRequest.get("/related/allvideo", { id });

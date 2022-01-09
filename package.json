@@ -20,5 +20,8 @@
   "dependencies": {
     "@vant/weapp": "^1.10.0",
     "hy-event-store": "^1.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1"
   }
 }
