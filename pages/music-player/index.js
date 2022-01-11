@@ -1,49 +1,40 @@
 // pages/music-player/index.js
-Page({
-  /**
-   * 页面的初始数据
-   */
-  data: {},
+import { getSongDetail } from "../../service/api_player";
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
+Page({
+  data: {
+    id: 0,
+    currentSong: {},
+    currentPage: 0,
+    contentHeight: 0,
+  },
   onLoad: function (options) {
+    // 1.获取传入的歌曲id
     const id = options.id;
+    this.setData({ id });
+    // 2.根据id获取歌曲信息
+    this.getPageData(id);
+    // 3.动态计算内容高度
+    const globalData = getApp().globalData;
+    const screenHeight = globalData.screenHeight;
+    const statusBarHeight = globalData.statusBarHeight;
+    const navBarHeight = globalData.navBarHeight;
+    const contentHeight = screenHeight - statusBarHeight - navBarHeight;
+    this.setData({ contentHeight });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
+  // 网络请求
+  getPageData: function (id) {
+    getSongDetail(id).then((res) => {
+      this.setData({ currentSong: res.songs[0] });
+    });
+  },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
+  // 事件处理
+  handleSwiperChange: function (event) {
+    const current = event.detail.current;
+    this.setData({ currentPage: current });
+  },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {},
 });

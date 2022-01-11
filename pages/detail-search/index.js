@@ -51,6 +51,7 @@ Page({
         // 4.1 获取建议的关键字歌曲
         const suggestSongs = res.result.allMatch;
         this.setData({ suggestSongs });
+        if (!suggestSongs) return;
         // 4.2 转成node节点
         const suggestKeywords = suggestSongs.map((item) => item.keyword);
         const suggestSongsNodes = [];
