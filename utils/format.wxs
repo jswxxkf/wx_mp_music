@@ -16,7 +16,7 @@ function padLeftZero(time) {
 }
 
 function formatDuration(duration) {
-  duration = duration / 1000;
+  duration = Math.round(duration / 1000);
   var minute = Math.floor(duration / 60);
   var second = duration % 60;
   return padLeftZero(minute) + ":" + padLeftZero(second);
