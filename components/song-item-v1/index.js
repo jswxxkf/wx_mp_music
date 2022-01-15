@@ -1,3 +1,5 @@
+import { playerStore } from "../../store/index";
+
 // components/song-item-v1/index.js
 Component({
   /**
@@ -24,6 +26,8 @@ Component({
       wx.navigateTo({
         url: `/pages/music-player/index?id=${id}`,
       });
+      // 派发playStore中请求数据的action
+      playerStore.dispatch("playMusicWithSongIdAction", { id });
     },
   },
 });

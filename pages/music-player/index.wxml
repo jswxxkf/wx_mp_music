@@ -8,7 +8,7 @@
 ></image>
 <view class="bg-cover"></view>
 <!-- 2.自定义导航 -->
-<nav-bar>
+<nav-bar bind:click="handleBackBtnClick">
   <view slot="title" class="tab">
     <view class="{{currentPage === 0 ? 'active' : ''}}">歌曲</view>
     <view class="sep">|</view>
@@ -53,7 +53,8 @@
     <view class="operation">
       <image
         class="btn btn-mode"
-        src="/assets/images/player/play_order.png"
+        src="/assets/images/player/play_{{playModeName}}.png"
+        bindtap="handleModeBtnClick"
       ></image>
       <image
         class="btn btn-prev"
@@ -61,7 +62,8 @@
       ></image>
       <image
         class="btn btn-pause"
-        src="/assets/images/player/play_pause.png"
+        src="/assets/images/player/play_{{playingName}}.png"
+        bindtap="handlePlayBtnClick"
       ></image>
       <image
         class="btn btn-next"
@@ -73,5 +75,20 @@
       ></image>
     </view>
   </swiper-item>
-  <swiper-item class="lyric"></swiper-item>
+  <swiper-item class="lyric">
+    <scroll-view
+      class="lyric-list"
+      scroll-y="{{true}}"
+      scroll-top="{{lyricScrollTop}}"
+      scroll-with-animation="{{true}}"
+    >
+      <block wx:for="{{lyricInfos}}" wx:key="index">
+        <view
+          class="lyric-item {{currentLyricIndex === index ? 'active' : ''}}"
+          style="padding-top: {{index === 0 ? (contentHeight / 2 - 80) : 0}}px; padding-bottom: {{index === lyricInfos.length - 1 ? (contentHeight / 2 + 80) : 0}}px;"
+          >{{item.text}}</view
+        >
+      </block>
+    </scroll-view>
+  </swiper-item>
 </swiper>

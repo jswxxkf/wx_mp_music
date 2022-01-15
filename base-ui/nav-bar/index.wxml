@@ -2,7 +2,7 @@
 <view class="nav">
   <view style="height: {{statusBarHeight}}px;"></view>
   <view class="nav-bar" style="height: {{navBarHeight}}px;">
-    <view class="left">
+    <view class="left" bindtap="handleBackClick">
       <view class="left-slot">
         <slot name="left"></slot>
       </view>

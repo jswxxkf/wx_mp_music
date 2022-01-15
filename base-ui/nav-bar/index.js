@@ -19,7 +19,12 @@ Component({
     navBarHeight: globalData.navBarHeight,
   },
 
-  methods: {},
+  methods: {
+    handleBackClick: function () {
+      this.triggerEvent("click");
+    },
+  },
+
   lifetimes: {
     ready: function () {},
   },
