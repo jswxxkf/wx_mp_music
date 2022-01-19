@@ -1,6 +1,6 @@
 /* pages/home-music/index.wxss */
 page {
-  padding: 0 20rpx 44px 20rpx;
+  padding: 0 20rpx 46px 20rpx;
 }
 
 /* 轮播图样式 */
@@ -35,7 +35,10 @@ page {
   height: 44px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 2px;
+  line-height: 44px;
+  font-size: 28rpx;
+  text-align: center;
   background-color: #fafafa;
   box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.15);
 }
@@ -52,11 +55,37 @@ page {
   width: 44px;
   height: 44px;
   border-radius: 50%;
+  transform: translateY(0);
+}
+
+.play-bar .left .name,
+.play-bar .lyric {
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+  /* 显示两行 */
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -moz-box;
+  -moz-line-clamp: 2;
+  -moz-box-orient: vertical;
+  word-wrap: break-word;
+  word-break: keep-all;
+  white-space: normal;
+  overflow: hidden;
 }
 
 .play-bar .left .name {
-  font-size: 28rpx;
-  margin-left: 10rpx;
+  width: 150rpx;
+  margin: 0 10rpx;
+}
+
+.play-bar .lyric {
+  flex: 1;
+  margin-right: 10rpx;
+  color: #26ce8a;
 }
 
 .play-bar .right .icon {
@@ -82,4 +111,12 @@ page {
 /* album无限旋转的动画 */
 .album-animation {
   animation: albumRotate 10s linear infinite;
+}
+
+.progress-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 }

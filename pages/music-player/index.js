@@ -104,7 +104,10 @@ Page({
 
   handleListSongItemPlay: function (event) {
     const songId = event.detail;
-    console.log(songId);
+    playerStore.dispatch("playMusicWithSongIdAction", {
+      id: songId,
+      isRefresh: true,
+    });
   },
 
   // ======================== 数据监听 =======================

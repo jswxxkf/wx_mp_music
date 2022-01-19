@@ -1,16 +1,27 @@
 <!--components/play-list/index.wxml-->
-<scroll-view class="container" scroll-y scroll-with-animation style="bottom: {{offsetBottom}}">
+<scroll-view
+  class="container"
+  scroll-y
+  scroll-with-animation
+  style="bottom: {{offsetBottom}}"
+>
   <view class="play-list">
-    <image class="bg-image" src="{{currentSong.al.picUrl}}" mode="aspectFill"></image>
+    <image class="bg-image" src="{{currentSong.al.picUrl}}" mode="aspectFill" />
     <view class="bg-cover"></view>
     <block wx:for="{{playListSongs}}" wx:key="id">
       <view class="play-list-item">
         <view class="left">
-          <image class="album" src="{{item.al.picUrl}}" mode="aspectFill"></image>
+          <image class="album" src="{{item.al.picUrl}}" mode="aspectFill" />
           <view class="creator">{{item.name}} - {{item.ar[0].name || ''}}</view>
         </view>
         <view class="right">
-          <image class="icon-play" src="/assets/images/music/play_icon.png" mode="aspectFill" bindtap="handleListSongItemPlay" data-id="{{item.id}}"></image>
+          <image
+            class="icon-play"
+            src="/assets/images/music/play_icon.png"
+            mode="aspectFill"
+            bindtap="handleListSongItemPlay"
+            data-id="{{item.id}}"
+          />
         </view>
       </view>
     </block>

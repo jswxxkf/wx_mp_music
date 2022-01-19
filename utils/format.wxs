@@ -22,9 +22,14 @@ function formatDuration(duration) {
   return padLeftZero(minute) + ":" + padLeftZero(second);
 }
 
+function round(val) {
+  return Math.round(val);
+}
+
 // 必须使用CommonJS
 module.exports = {
   // 因使用ES5，对象增强语法也不允许出现
   formatCount: formatCount,
   formatDuration: formatDuration,
+  round: round,
 };

@@ -9,7 +9,7 @@
         class="play-icon"
         src="/assets/images/icons/play_icon.png"
         mode="widthFix"
-      ></image>
+      />
       <view>{{formatter.formatCount(item.playTime)}}</view>
     </view>
   </view>

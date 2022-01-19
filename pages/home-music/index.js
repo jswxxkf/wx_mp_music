@@ -19,9 +19,13 @@ Page({
     recommendSongMenu: [],
     rankings: { 0: {}, 2: {}, 3: {} },
     currentSong: {},
+    currentLyricText: "",
     isPlaying: false,
+    isPureMusic: false,
     playAnimState: "paused",
     playListSongs: [],
+    currentTime: 0,
+    durationTime: 0,
     // ui visibility
     isPlaylistShown: false,
   },
@@ -149,15 +153,34 @@ Page({
     playerStore.onStates(
       ["currentSong", "isPlaying"],
       ({ currentSong, isPlaying }) => {
-        if (currentSong !== undefined) {
-          this.setData({ currentSong });
-        }
+        if (currentSong !== undefined) this.setData({ currentSong });
         if (isPlaying !== undefined) {
           this.setData({
             isPlaying,
             playAnimState: isPlaying ? "running" : "paused",
           });
         }
+      },
+    );
+    // 监听歌词相关
+    playerStore.onStates(
+      ["currentLyricText", "isPureMusic"],
+      ({ currentLyricText, isPureMusic }) => {
+        if (isPureMusic !== undefined) this.setData({ isPureMusic });
+        if (currentLyricText !== undefined) {
+          this.setData({
+            currentLyricText: this.data.isPureMusic
+              ? "纯音乐，请欣赏~"
+              : currentLyricText,
+          });
+        }
+      },
+    );
+    playerStore.onStates(
+      ["currentTime", "durationTime"],
+      ({ currentTime, durationTime }) => {
+        if (currentTime !== undefined) this.setData({ currentTime });
+        if (durationTime !== undefined) this.setData({ durationTime });
       },
     );
   },
