@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "nav-bar": "/base-ui/nav-bar/index"
+    "nav-bar": "/base-ui/nav-bar/index",
+    "play-list": "/components/play-list/index"
   },
   "navigationStyle": "custom",
   "navigationBarTextStyle": "white"

@@ -23,10 +23,11 @@ Component({
   methods: {
     handleSongItemClick: function () {
       const id = this.properties.item.id;
+      // 1. 页面跳转
       wx.navigateTo({
         url: `/pages/music-player/index?id=${id}`,
       });
-      // 派发playStore中请求数据的action
+      // 2. 派发playStore中请求数据的action(数据请求+其他操作)
       playerStore.dispatch("playMusicWithSongIdAction", { id });
     },
   },

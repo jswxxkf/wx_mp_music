@@ -36,7 +36,7 @@
         <view class="alias">{{currentSong.alia[0]}}</view>
       </view>
     </view>
-    <view class="lyric" wx:if="{{isMusicLyric}}">{{currentLyricText}}</view>
+    <view class="lyric" wx:if="{{isMusicLyric}}">{{isPureMusic ? '纯音乐，请欣赏~~' : currentLyricText}}</view>
     <view class="progress">
       <slider
         class="slider"
@@ -59,6 +59,7 @@
       <image
         class="btn btn-prev"
         src="/assets/images/player/play_prev.png"
+        bindtap="handlePrevBtnClick"
       ></image>
       <image
         class="btn btn-pause"
@@ -68,12 +69,16 @@
       <image
         class="btn btn-next"
         src="/assets/images/player/play_next.png"
+        bindtap="handleNextBtnClick"
       ></image>
       <image
         class="btn btn-music"
         src="/assets/images/player/play_music.png"
+        bindtap="handlePlaylistBtnClick"
       ></image>
     </view>
+    <!-- 播放列表 -->
+    <play-list wx:if="{{isPlaylistShown}}" playListSongs="{{playListSongs}}" currentSong="{{currentSong}}" bind:onListSongItemPlay="handleListSongItemPlay" offsetBottom="200rpx"></play-list>
   </swiper-item>
   <swiper-item class="lyric">
     <scroll-view

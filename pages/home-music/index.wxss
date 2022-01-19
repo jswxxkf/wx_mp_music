@@ -1,6 +1,6 @@
 /* pages/home-music/index.wxss */
 page {
-  padding: 0 20rpx;
+  padding: 0 20rpx 44px 20rpx;
 }
 
 /* 轮播图样式 */
@@ -24,3 +24,62 @@ page {
 /* .song-list {
   padding-top: 15rpx;
 } */
+
+/* 播放工具栏 */
+.play-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  padding: 0 16rpx;
+  height: 44px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fafafa;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.15);
+}
+
+.play-bar .left,
+.play-bar .right {
+  display: flex;
+  align-items: center;
+}
+
+.play-bar .left .album {
+  position: relative;
+  top: -8px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.play-bar .left .name {
+  font-size: 28rpx;
+  margin-left: 10rpx;
+}
+
+.play-bar .right .icon {
+  width: 30px;
+  height: 30px;
+}
+
+.play-bar .right .play {
+  width: 25px;
+  height: 25px;
+  margin-right: 10rpx;
+}
+
+@keyframes albumRotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* album无限旋转的动画 */
+.album-animation {
+  animation: albumRotate 10s linear infinite;
+}

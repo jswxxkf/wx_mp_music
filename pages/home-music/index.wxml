@@ -1,71 +1,53 @@
 <!--pages/home-music/index.wxml-->
 <!-- 搜索框 -->
-<vant-search
-  disabled
-  background="#fafafa"
-  shape="round"
-  placeholder="搜索您喜欢的歌曲"
-  bind:click-input="handleSearchClick"
-/>
+<vant-search disabled background="#fafafa" shape="round" placeholder="搜索您喜欢的歌曲" bind:click-input="handleSearchClick" />
 
 <!-- 轮播图 -->
-<swiper
-  class="swiper"
-  style="height: {{swiperHeight}}px"
-  indicator-dots
-  autoplay
-  circular
->
+<swiper class="swiper" style="height: {{swiperHeight}}px" indicator-dots autoplay circular>
   <block wx:for="{{banners}}" wx:key="bannerId">
     <swiper-item class="swiper-item">
-      <image
-        class="swiper-image"
-        mode="widthFix"
-        src="{{item.pic}}"
-        bind:load="handleSwiperImageLoaded"
-      />
+      <image class="swiper-image" mode="widthFix" src="{{item.pic}}" bind:load="handleSwiperImageLoaded" />
     </swiper-item>
   </block>
 </swiper>
 
 <!-- 推荐歌曲列表 -->
 <view wx:if="{{recommendSongs.length > 0}}" class="recommended-songs">
-  <area-header
-    title="推荐歌曲"
-    showRight="{{true}}"
-    bind:click="handleMoreClick"
-  ></area-header>
+  <area-header title="推荐歌曲" showRight="{{true}}" bind:click="handleMoreClick"></area-header>
   <view class="song-list">
     <block wx:for="{{recommendSongs}}" wx:key="id">
-      <song-item-v1 class="song-item" item="{{item}}"></song-item-v1>
+      <song-item-v1 class="song-item" item="{{item}}" bindtap="handleSongItemClick" data-index="{{index}}"></song-item-v1>
     </block>
   </view>
 </view>
 
 <!-- 热门歌单 -->
-<song-menu-area
-  wx:if="{{hotSongMenu.length > 0}}"
-  title="热门歌单"
-  songMenu="{{hotSongMenu}}"
-></song-menu-area>
+<song-menu-area wx:if="{{hotSongMenu.length > 0}}" title="热门歌单" songMenu="{{hotSongMenu}}"></song-menu-area>
 
 <!-- 推荐歌单 -->
-<song-menu-area
-  wx:if="{{recommendSongMenu.length > 0}}"
-  title="推荐歌单"
-  songMenu="{{recommendSongMenu}}"
-></song-menu-area>
+<song-menu-area wx:if="{{recommendSongMenu.length > 0}}" title="推荐歌单" songMenu="{{recommendSongMenu}}"></song-menu-area>
 
 <!-- 巅峰榜 -->
 <view class="ranking">
   <area-header title="巅峰榜" showRight="{{false}}"></area-header>
   <view class="ranking-list">
     <block wx:for="{{rankings}}" wx:key="index">
-      <ranking-area-item
-        rankingItem="{{item}}"
-        bindtap="handleRankingItemClick"
-        data-idx="{{index}}"
-      ></ranking-area-item>
+      <ranking-area-item rankingItem="{{item}}" bindtap="handleRankingItemClick" data-idx="{{index}}"></ranking-area-item>
     </block>
+  </view>
+</view>
+
+<!-- 播放列表 -->
+<play-list wx:if="{{isPlaylistShown}}" playListSongs="{{playListSongs}}" currentSong="{{currentSong}}" bind:onListSongItemPlay="handleListSongItemPlay"></play-list>
+
+<!-- 播放工具栏 -->
+<view class="play-bar">
+  <view class="left">
+    <image class="album album-animation" style="animation-play-state: {{playAnimState}}" src="{{currentSong.al.picUrl}}" mode="aspectFill" bindtap="handlePlayBarAlbumClick"></image>
+    <view class="name">{{currentSong.name}}</view>
+  </view>
+  <view class="right">
+    <image class="icon play" src="/assets/images/music/{{isPlaying ? 'pause' : 'play'}}_icon.png" bindtap="handlePlayBtnClick"></image>
+    <image class="icon playlist" src="/assets/images/music/playlist_icon.png" bindtap="handlePlaylistBtnClick"></image>
   </view>
 </view>

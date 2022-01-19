@@ -1,5 +1,9 @@
 const timeRegExp = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/;
 
+/**
+ * 解析歌词，返回歌词数组
+ * @param {string} lyricString 待解析的后端返回的歌词隔行字符串
+ */
 export function parseLyric(lyricString) {
   const lyricInfos = [];
   const lyricLines = lyricString.split("\n");
@@ -22,4 +26,12 @@ export function parseLyric(lyricString) {
     lyricInfos.push(lyricInfo);
   }
   return lyricInfos;
+}
+
+/**
+ * 判断是否是纯音乐
+ * @param {Array} lyricInfos 解析后的歌词信息数组
+ */
+export function checkPureMusic(lyricInfos) {
+  return lyricInfos.find((lyricInfo) => lyricInfo.text === "纯音乐，请欣赏");
 }

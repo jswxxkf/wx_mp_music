@@ -17,6 +17,8 @@ Page({
     playModeName: "order",
     isPlaying: false,
     playingName: "pause",
+    isPureMusic: false,
+    playListSongs: [],
     // 页面相关
     currentPage: 0,
     contentHeight: 0,
@@ -24,11 +26,13 @@ Page({
     sliderValue: 0,
     isSliderChanging: false,
     lyricScrollTop: 0,
+    isPlaylistShown: false,
   },
   onLoad: function (options) {
     // 1.获取传入的歌曲id
     const id = options.id;
     this.setData({ id });
+    // playerStore.dispatch("playMusicWithSongIdAction", { id });
     // 2.设置播放器状态改变的监听
     this.setupPlayerStoreListener();
     // 3.动态计算内容高度
@@ -83,18 +87,49 @@ Page({
   },
 
   handlePlayBtnClick: function () {
-    playerStore.dispatch("changeMusicPlayStatusAction");
+    playerStore.dispatch("changeMusicPlayStatusAction", !this.data.isPlaying);
+  },
+
+  handlePrevBtnClick: function () {
+    playerStore.dispatch("changeNewMusicAction", false); // isNext = false
+  },
+
+  handleNextBtnClick: function () {
+    playerStore.dispatch("changeNewMusicAction");
+  },
+
+  handlePlaylistBtnClick: function () {
+    this.setData({ isPlaylistShown: !this.data.isPlaylistShown });
+  },
+
+  handleListSongItemPlay: function (event) {
+    const songId = event.detail;
+    console.log(songId);
   },
 
   // ======================== 数据监听 =======================
   setupPlayerStoreListener: function () {
-    // 1.监听currentSong,durationTime,lyricInfos
+    // 1.监听playListSongs,currentSong,durationTime,lyricInfos,isPureMusic
     playerStore.onStates(
-      ["currentSong", "durationTime", "lyricInfos"],
-      ({ currentSong, durationTime, lyricInfos }) => {
-        if (currentSong) this.setData({ currentSong });
-        if (durationTime) this.setData({ durationTime });
-        if (lyricInfos) this.setData({ lyricInfos });
+      [
+        "currentSong",
+        "durationTime",
+        "lyricInfos",
+        "isPureMusic",
+        "playListSongs",
+      ],
+      ({
+        currentSong,
+        durationTime,
+        lyricInfos,
+        isPureMusic,
+        playListSongs,
+      }) => {
+        if (currentSong !== undefined) this.setData({ currentSong });
+        if (durationTime !== undefined) this.setData({ durationTime });
+        if (lyricInfos !== undefined) this.setData({ lyricInfos });
+        if (isPureMusic !== undefined) this.setData({ isPureMusic });
+        if (playListSongs !== undefined) this.setData({ playListSongs });
       },
     );
     // 2.监听currentTime,currentLyricIndex,currentLyricText

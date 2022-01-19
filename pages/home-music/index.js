@@ -1,11 +1,11 @@
 // pages/home-music/index.js
-import { rankingStore, rankingMap } from "../../store/index";
+import { rankingStore, rankingMap, playerStore } from "../../store/index";
 
 import { getBanners, getSongMenu } from "../../service/api_music";
 import queryRect from "../../utils/query-rect";
 import throttle from "../../utils/throttle";
 
-const throttledQueryRect = throttle(queryRect, 200, {
+const throttledQueryRect = throttle(queryRect, 500, {
   leading: true,
   trailing: true,
 });
@@ -18,22 +18,23 @@ Page({
     hotSongMenu: [],
     recommendSongMenu: [],
     rankings: { 0: {}, 2: {}, 3: {} },
+    currentSong: {},
+    isPlaying: false,
+    playAnimState: "paused",
+    playListSongs: [],
+    // ui visibility
+    isPlaylistShown: false,
   },
 
   onLoad: function (options) {
+    // 0.先行播放一首歌曲
+    playerStore.dispatch("playMusicWithSongIdAction", { id: 1353301300 });
     // 1.获取页面数据
     this.getPageData();
     // 2.通过action发起共享数据的请求
     rankingStore.dispatch("getRankingDataAction");
     // 3.从store中获取共享的数据
-    rankingStore.onState("hotRanking", (res) => {
-      if (!res.tracks) return;
-      const recommendSongs = res.tracks.slice(0, 6);
-      this.setData({ recommendSongs });
-    });
-    rankingStore.onState("newRanking", this.getRankingHandler(0));
-    rankingStore.onState("originRanking", this.getRankingHandler(2));
-    rankingStore.onState("thriveRanking", this.getRankingHandler(3));
+    this.setupStoreListener();
   },
 
   // 网络请求
@@ -45,7 +46,7 @@ Page({
     );
   },
 
-  // 事件处理
+  // =================== 事件处理 ======================
   // 点击搜索框，跳转搜索详情页
   handleSearchClick: function () {
     wx.navigateTo({
@@ -73,6 +74,39 @@ Page({
     this.navigateToDetailSongPage(rankingName);
   },
 
+  // 推荐歌曲点击处理
+  handleSongItemClick: function (event) {
+    const index = event.currentTarget.dataset.index;
+    playerStore.setState("playListSongs", this.data.recommendSongs);
+    playerStore.setState("playerListIndex", index);
+  },
+
+  // 点击底部播放栏中播放按钮的处理函数
+  handlePlayBtnClick: function () {
+    playerStore.dispatch("changeMusicPlayStatusAction", !this.data.isPlaying);
+  },
+
+  // 点击底部播放栏中封面的处理函数
+  handlePlayBarAlbumClick: function () {
+    wx.navigateTo({
+      url: `/pages/music-player/index?id={${this.data.currentSong.id}}`,
+    });
+  },
+
+  // 点击底部播放栏中播放列表按钮的处理函数
+  handlePlaylistBtnClick: function () {
+    this.setData({ isPlaylistShown: !this.data.isPlaylistShown });
+  },
+
+  // 歌曲列表中列表项点击的处理函数
+  handleListSongItemPlay: function (event) {
+    const songId = event.detail;
+    wx.navigateTo({
+      url: `/pages/music-player/index?id=${songId}`,
+    });
+    playerStore.dispatch("playMusicWithSongIdAction", { id: songId });
+  },
+
   // 真正跳转进入歌单详情页
   navigateToDetailSongPage: function (rankingName) {
     wx.navigateTo({
@@ -93,6 +127,39 @@ Page({
       const newRankings = { ...this.data.rankings, [idx]: rankingObj };
       this.setData({ rankings: newRankings });
     };
+  },
+
+  // 设置store对应共享数据的监听
+  setupStoreListener: function () {
+    // 1. 排行榜相关监听
+    rankingStore.onState("hotRanking", (res) => {
+      if (!res.tracks) return;
+      const recommendSongs = res.tracks.slice(0, 6);
+      this.setData({ recommendSongs });
+    });
+    rankingStore.onState("newRanking", this.getRankingHandler(0));
+    rankingStore.onState("originRanking", this.getRankingHandler(2));
+    rankingStore.onState("thriveRanking", this.getRankingHandler(3));
+    // 2. 播放器相关监听
+    playerStore.onState("playListSongs", (playListSongs) => {
+      if (playListSongs.length) {
+        this.setData({ playListSongs });
+      }
+    });
+    playerStore.onStates(
+      ["currentSong", "isPlaying"],
+      ({ currentSong, isPlaying }) => {
+        if (currentSong !== undefined) {
+          this.setData({ currentSong });
+        }
+        if (isPlaying !== undefined) {
+          this.setData({
+            isPlaying,
+            playAnimState: isPlaying ? "running" : "paused",
+          });
+        }
+      },
+    );
   },
 
   onUnload: function () {

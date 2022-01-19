@@ -1,11 +1,12 @@
 import { HYEventStore } from "hy-event-store";
-import { parseLyric } from "../utils/parse-lyric";
+import { parseLyric, checkPureMusic } from "../utils/parse-lyric";
 import { getSongDetail, getSongLyric } from "../service/api_player";
 
 const audioContext = wx.createInnerAudioContext();
 
 const playerStore = new HYEventStore({
   state: {
+    isFirstPlay: true, // 是否是第一次播放
     currentSong: {},
     lyricInfos: [],
     currentTime: 0,
@@ -14,30 +15,54 @@ const playerStore = new HYEventStore({
     currentLyricText: "",
     isPlaying: false,
     playModeIndex: 0, // 0:列表循环 1:单曲循环 2:随机播放
+    playListSongs: [],
+    playListIndex: 0,
+    isPureMusic: false, // 是否是纯音乐
   },
   actions: {
-    playMusicWithSongIdAction(ctx, { id }) {
+    playMusicWithSongIdAction(ctx, { id, isRefresh = false }) {
+      if (ctx.id == id && !isRefresh) {
+        setTimeout(() => {
+          this.dispatch("changeMusicPlayStatusAction", true);
+        }, 500);
+        return;
+      }
       ctx.id = id;
       // 0.修改是否正在播放状态
       ctx.isPlaying = true;
+      // 先重置上一首歌曲信息，避免残影现象
+      ctx.currentSong = {};
+      ctx.durationTime = 0;
+      ctx.lyricInfos = [];
+      ctx.currentTime = 0;
+      ctx.currentLyricIndex = 0;
+      ctx.currentLyricText = "";
+      ctx.isPureMusic = false;
       // 1.根据id请求数据
       // 请求歌曲详情
       getSongDetail(id).then((res) => {
         ctx.currentSong = res.songs[0];
         ctx.durationTime = res.songs[0].dt;
+        if (!ctx.playListSongs.find((song) => song.id === id)) {
+          ctx.playListSongs = [...ctx.playListSongs, ctx.currentSong];
+        }
       });
       // 请求歌词
       getSongLyric(id).then((res) => {
         const lyricString = res.lrc.lyric;
         const lyrics = parseLyric(lyricString);
         ctx.lyricInfos = lyrics;
+        ctx.isPureMusic = checkPureMusic(lyrics);
       });
       // 2.播放对应id的歌曲
       audioContext.stop(); // 停止上一首音乐
       audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
       audioContext.autoplay = true;
       // 3.监听audioContext的相关事件
-      this.dispatch("setupAudioContextListenerAction");
+      if (ctx.isFirstPlay) {
+        this.dispatch("setupAudioContextListenerAction");
+        ctx.isFirstPlay = false;
+      }
     },
     setupAudioContextListenerAction(ctx) {
       // 监听歌曲可以播放
@@ -64,13 +89,50 @@ const playerStore = new HYEventStore({
         if (currentLyricIndex !== ctx.currentLyricIndex) {
           const currentLyricInfo = ctx.lyricInfos[currentLyricIndex];
           ctx.currentLyricIndex = currentLyricIndex;
-          ctx.currentLyricText = currentLyricInfo.text;
+          ctx.currentLyricText = currentLyricInfo.text || "";
         }
       });
+      // 监听歌曲播放完成
+      audioContext.onEnded(() => {
+        this.dispatch("changeNewMusicAction");
+      });
     },
-    changeMusicPlayStatusAction(ctx) {
-      ctx.isPlaying = !ctx.isPlaying;
+    changeMusicPlayStatusAction(ctx, isPlaying = true) {
+      ctx.isPlaying = isPlaying;
       ctx.isPlaying ? audioContext.play() : audioContext.pause();
+    },
+    changeNewMusicAction(ctx, isNext = true) {
+      // 1. 获取当前音乐索引
+      let index = ctx.playListIndex;
+      // 2. 根据不同的播放模式，获取下一首歌索引
+      switch (ctx.playModeIndex) {
+        case 0: // 顺序播放
+          index = isNext ? index + 1 : index - 1;
+          if (index === -1) {
+            index = ctx.playListSongs.length - 1;
+          } else if (index === ctx.playListSongs.length - 1) {
+            index = 0;
+          }
+          break;
+        case 1: // 单曲循环
+          break;
+        case 2: // 随机播放
+          index = Math.floor(Math.random() * ctx.playListSongs.length);
+          break;
+      }
+      // 3. 获取对应的歌曲
+      let currentSong = ctx.playListSongs[index];
+      if (!currentSong) {
+        currentSong = ctx.currentSong;
+      } else {
+        // 记录最新的索引
+        ctx.playListIndex = index;
+      }
+      // 4. 播放新的歌曲
+      this.dispatch("playMusicWithSongIdAction", {
+        id: currentSong.id,
+        isRefresh: true,
+      });
     },
   },
 });
