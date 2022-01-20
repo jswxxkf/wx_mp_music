@@ -58,7 +58,7 @@ Page({
     const currentTime = (this.data.durationTime * sliderPercent) / 100;
     this.setData({ currentTime });
     // 3.设置context，播放currentTime处的音乐
-    audioContext.pause(); // 先暂停一下，防止跳动
+    // audioContext.pause(); // 先暂停一下，防止跳动
     audioContext.seek(currentTime / 1000); // 待解码完毕后，会自动执行上面回调中的play()
     // 4.记录最新的sliderValue，将滑块是否滑动中置为false
     this.setData({ sliderValue: sliderPercent, isSliderChanging: false });

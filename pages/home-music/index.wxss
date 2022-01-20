@@ -1,6 +1,6 @@
 /* pages/home-music/index.wxss */
 page {
-  padding: 0 20rpx 46px 20rpx;
+  padding: 0 20rpx;
 }
 
 /* 轮播图样式 */
@@ -20,10 +20,10 @@ page {
   width: 100%;
 }
 
-/* 推荐歌曲列表 */
-/* .song-list {
-  padding-top: 15rpx;
-} */
+/* 底部播放工具栏占位 */
+.play-bar-placeholder {
+  height: 46px;
+}
 
 /* 播放工具栏 */
 .play-bar {

@@ -2,7 +2,8 @@ import { HYEventStore } from "hy-event-store";
 import { parseLyric, checkPureMusic } from "../utils/parse-lyric";
 import { getSongDetail, getSongLyric } from "../service/api_player";
 
-const audioContext = wx.createInnerAudioContext();
+// const audioContext = wx.createInnerAudioContext();
+const audioContext = wx.getBackgroundAudioManager();
 
 const playerStore = new HYEventStore({
   state: {
@@ -43,6 +44,8 @@ const playerStore = new HYEventStore({
       getSongDetail(id).then((res) => {
         ctx.currentSong = res.songs[0];
         ctx.durationTime = res.songs[0].dt;
+        // 从歌曲信息中拿到name，设置为后台播放时的title
+        audioContext.title = res.songs[0].name;
         if (!ctx.playListSongs.find((song) => song.id === id)) {
           ctx.playListSongs = [...ctx.playListSongs, ctx.currentSong];
         }
@@ -57,6 +60,7 @@ const playerStore = new HYEventStore({
       // 2.播放对应id的歌曲
       audioContext.stop(); // 停止上一首音乐
       audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
+      audioContext.title = id;
       audioContext.autoplay = true;
       // 3.监听audioContext的相关事件
       if (ctx.isFirstPlay) {
@@ -89,12 +93,20 @@ const playerStore = new HYEventStore({
         if (currentLyricIndex !== ctx.currentLyricIndex) {
           const currentLyricInfo = ctx.lyricInfos[currentLyricIndex];
           ctx.currentLyricIndex = currentLyricIndex;
-          ctx.currentLyricText = currentLyricInfo.text || "";
+          ctx.currentLyricText = currentLyricInfo?.text || "";
         }
       });
       // 监听歌曲播放完成
       audioContext.onEnded(() => {
         this.dispatch("changeNewMusicAction");
+      });
+      // 监听音乐暂停
+      audioContext.onPlay(() => {
+        ctx.isPlaying = true;
+      });
+      // 监听音乐暂停
+      audioContext.onPause(() => {
+        ctx.isPlaying = false;
       });
     },
     changeMusicPlayStatusAction(ctx, isPlaying = true) {

@@ -32,7 +32,7 @@ Page({
 
   onLoad: function (options) {
     // 0.先行播放一首歌曲
-    playerStore.dispatch("playMusicWithSongIdAction", { id: 1353301300 });
+    // playerStore.dispatch("playMusicWithSongIdAction", { id: 1353301300 });
     // 1.获取页面数据
     this.getPageData();
     // 2.通过action发起共享数据的请求
@@ -91,7 +91,7 @@ Page({
   },
 
   // 点击底部播放栏中封面的处理函数
-  handlePlayBarAlbumClick: function () {
+  handlePlayBarClick: function () {
     wx.navigateTo({
       url: `/pages/music-player/index?id={${this.data.currentSong.id}}`,
     });

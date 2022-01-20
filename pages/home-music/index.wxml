@@ -76,37 +76,33 @@
   </view>
 </view>
 
-<!-- 播放列表 -->
-<play-list
-  wx:if="{{isPlaylistShown}}"
-  playListSongs="{{playListSongs}}"
-  currentSong="{{currentSong}}"
-  bind:onListSongItemPlay="handleListSongItemPlay"
-></play-list>
-
 <!-- 播放工具栏 -->
-<view class="play-bar">
+<!-- 用于占位的view -->
+<view class="play-bar-placeholder" wx:if="{{currentSong.id}}"></view>
+<view class="play-bar" 
+      wx:if="{{currentSong.id}}" 
+      bindtap="handlePlayBarClick">
   <view class="left">
     <image
       class="album album-animation"
       style="animation-play-state: {{playAnimState}}"
       src="{{currentSong.al.picUrl}}"
       mode="aspectFill"
-      bindtap="handlePlayBarAlbumClick"
     ></image>
     <view class="name">{{currentSong.name}}</view>
   </view>
   <view class="lyric">{{currentLyricText}}</view>
   <view class="right">
+    <!-- catchtap: 阻止事件向上冒泡传递 -->
     <image
       class="icon play"
       src="/assets/images/music/{{isPlaying ? 'pause' : 'play'}}_icon.png"
-      bindtap="handlePlayBtnClick"
+      catchtap="handlePlayBtnClick"
     ></image>
     <image
       class="icon playlist"
       src="/assets/images/music/playlist_icon.png"
-      bindtap="handlePlaylistBtnClick"
+      catchtap="handlePlaylistBtnClick"
     ></image>
   </view>
 </view>
@@ -117,4 +113,13 @@
   percent="{{formatter.round(currentTime / durationTime * 100)}}"
   activeColor="#26ce8a"
   stroke-width="2"
+  wx:if="{{currentSong.id}}"
 ></progress>
+
+<!-- 播放列表 -->
+<play-list
+  wx:if="{{isPlaylistShown}}"
+  playListSongs="{{playListSongs}}"
+  currentSong="{{currentSong}}"
+  bind:onListSongItemPlay="handleListSongItemPlay"
+></play-list>
