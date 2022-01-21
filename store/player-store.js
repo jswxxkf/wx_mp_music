@@ -8,6 +8,7 @@ const audioContext = wx.getBackgroundAudioManager();
 const playerStore = new HYEventStore({
   state: {
     isFirstPlay: true, // 是否是第一次播放
+    isBgStopped: false, // 是否被后台停止
     currentSong: {},
     lyricInfos: [],
     currentTime: 0,
@@ -23,9 +24,7 @@ const playerStore = new HYEventStore({
   actions: {
     playMusicWithSongIdAction(ctx, { id, isRefresh = false }) {
       if (ctx.id == id && !isRefresh) {
-        setTimeout(() => {
-          this.dispatch("changeMusicPlayStatusAction", true);
-        }, 500);
+        this.dispatch("changeMusicPlayStatusAction", true);
         return;
       }
       ctx.id = id;
@@ -60,7 +59,6 @@ const playerStore = new HYEventStore({
       // 2.播放对应id的歌曲
       audioContext.stop(); // 停止上一首音乐
       audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
-      audioContext.title = id;
       audioContext.autoplay = true;
       // 3.监听audioContext的相关事件
       if (ctx.isFirstPlay) {
@@ -108,10 +106,23 @@ const playerStore = new HYEventStore({
       audioContext.onPause(() => {
         ctx.isPlaying = false;
       });
+      // 监听用户在后台停止播放
+      audioContext.onStop(() => {
+        ctx.lastSong = ctx.currentSong;
+        ctx.isPlaying = false;
+        ctx.isBgStopped = true;
+      });
     },
     changeMusicPlayStatusAction(ctx, isPlaying = true) {
       ctx.isPlaying = isPlaying;
+      if (ctx.isPlaying && ctx.isBgStopped) {
+        audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`;
+        audioContext.title = ctx.currentSong.name;
+      }
       ctx.isPlaying ? audioContext.play() : audioContext.pause();
+      if (ctx.isBgStopped) {
+        ctx.isBgStopped = false;
+      }
     },
     changeNewMusicAction(ctx, isNext = true) {
       // 1. 获取当前音乐索引
