@@ -8,7 +8,7 @@
   <view class="play-list">
     <image class="bg-image" src="{{currentSong.al.picUrl}}" mode="aspectFill" />
     <view class="bg-cover"></view>
-    <block wx:for="{{playListSongs}}" wx:key="id">
+    <block wx:for="{{playListSongs}}" wx:for-index="index" wx:key="id">
       <view class="play-list-item">
         <view class="left">
           <image class="album" src="{{item.al.picUrl}}" mode="aspectFill" />
@@ -21,6 +21,7 @@
             mode="aspectFill"
             bindtap="handleListSongItemPlay"
             data-id="{{item.id}}"
+            data-index="{{index}}"
           />
         </view>
       </view>

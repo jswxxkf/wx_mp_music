@@ -103,7 +103,8 @@ Page({
   },
 
   handleListSongItemPlay: function (event) {
-    const songId = event.detail;
+    const { songId, listIndex } = event.detail;
+    playerStore.setState("playListIndex", listIndex);
     playerStore.dispatch("playMusicWithSongIdAction", {
       id: songId,
       isRefresh: true,

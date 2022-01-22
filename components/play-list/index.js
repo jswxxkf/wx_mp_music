@@ -23,7 +23,8 @@ Component({
   methods: {
     handleListSongItemPlay(event) {
       const songId = event.currentTarget.dataset.id;
-      this.triggerEvent("onListSongItemPlay", songId);
+      const listIndex = event.currentTarget.dataset.index;
+      this.triggerEvent("onListSongItemPlay", { songId, listIndex });
     },
   },
 });

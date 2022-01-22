@@ -9,7 +9,7 @@ const playerStore = new HYEventStore({
   state: {
     isFirstPlay: true, // 是否是第一次播放
     isBgStopped: false, // 是否被后台停止
-    isChangeBtnClicked: false, // 是否点击了上下首切换按钮
+    isFgChanged: false, // 是否前台切换歌曲(进一步停止上一首导致触发onStop)
     currentSong: {},
     lyricInfos: [],
     currentTime: 0,
@@ -23,15 +23,20 @@ const playerStore = new HYEventStore({
     isPureMusic: false, // 是否是纯音乐
   },
   actions: {
-    playMusicWithSongIdAction(ctx, { id, isRefresh = false }) {
+    async playMusicWithSongIdAction(ctx, { id, isRefresh = false }) {
+      // 1.监听audioContext的相关事件
+      if (ctx.isFirstPlay) {
+        this.dispatch("setupAudioContextListenerAction");
+        ctx.isFirstPlay = false;
+      }
       if (ctx.id == id && !isRefresh) {
         this.dispatch("changeMusicPlayStatusAction", true);
         return;
       }
       ctx.id = id;
-      // 0.修改是否正在播放状态
-      ctx.isPlaying = true;
-      // 先重置上一首歌曲信息，避免残影现象
+      ctx.isFgChanged = true;
+      audioContext.stop(); // 停止上一首音乐
+      // 2.重置上一首歌曲信息，避免残影现象
       ctx.currentSong = {};
       ctx.durationTime = 0;
       ctx.lyricInfos = [];
@@ -39,33 +44,26 @@ const playerStore = new HYEventStore({
       ctx.currentLyricIndex = 0;
       ctx.currentLyricText = "";
       ctx.isPureMusic = false;
-      // 1.根据id请求数据
+      // 3.根据id请求数据
       // 请求歌曲详情
-      getSongDetail(id).then((res) => {
-        ctx.currentSong = res.songs[0];
-        ctx.durationTime = res.songs[0].dt;
-        // 从歌曲信息中拿到name，设置为后台播放时的title
-        audioContext.title = res.songs[0].name;
-        if (!ctx.playListSongs.find((song) => song.id === id)) {
-          ctx.playListSongs = [...ctx.playListSongs, ctx.currentSong];
-        }
-      });
-      // 请求歌词
-      getSongLyric(id).then((res) => {
-        const lyricString = res.lrc.lyric;
-        const lyrics = parseLyric(lyricString);
-        ctx.lyricInfos = lyrics;
-        ctx.isPureMusic = checkPureMusic(lyrics);
-      });
-      // 2.播放对应id的歌曲
-      audioContext.stop(); // 停止上一首音乐
-      audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
-      audioContext.autoplay = true;
-      // 3.监听audioContext的相关事件
-      if (ctx.isFirstPlay) {
-        this.dispatch("setupAudioContextListenerAction");
-        ctx.isFirstPlay = false;
+      const res = await getSongDetail(id);
+      ctx.currentSong = res.songs[0];
+      ctx.durationTime = res.songs[0].dt;
+      if (!ctx.playListSongs.find((song) => song.id === id)) {
+        ctx.playListSongs = [ctx.currentSong, ...ctx.playListSongs];
+        ctx.playListIndex = 0;
       }
+      // 请求歌词
+      const res2 = await getSongLyric(id);
+      const lyricString = res2.lrc.lyric;
+      const lyrics = parseLyric(lyricString);
+      ctx.lyricInfos = lyrics;
+      ctx.isPureMusic = checkPureMusic(lyrics);
+      // 4.播放对应id的歌曲
+      audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
+      // 从歌曲信息中拿到name，设置为后台播放时的title
+      audioContext.title = ctx.currentSong.name;
+      audioContext.autoplay = true;
     },
     setupAudioContextListenerAction(ctx) {
       // 监听歌曲可以播放
@@ -74,7 +72,6 @@ const playerStore = new HYEventStore({
       });
       // 监听播放时间改变
       audioContext.onTimeUpdate(() => {
-        ctx.isChangeBtnClicked = false;
         // 1. 获取当前时间
         const currentTime = audioContext.currentTime * 1000;
         // 2. 根据当前时间修改store中currentTime
@@ -112,10 +109,18 @@ const playerStore = new HYEventStore({
       audioContext.onStop(() => {
         // 只有真正的后台停止，才需要暂停播放和记录后台停止状态
         // 因为切换上下首歌曲也会来到此回调中
-        if (!ctx.isChangeBtnClicked) {
-          ctx.isPlaying = false;
+        ctx.isPlaying = false;
+        if (!ctx.isFgChanged) {
           ctx.isBgStopped = true;
         }
+        ctx.isFgChanged = false;
+      });
+      // 以下仅IOS支持
+      audioContext.onNext(() => {
+        this.dispatch("changeNewMusicAction");
+      });
+      audioContext.onPrev(() => {
+        this.dispatch("changeNewMusicAction", false);
       });
     },
     changeMusicPlayStatusAction(ctx, isPlaying = true) {
@@ -130,8 +135,6 @@ const playerStore = new HYEventStore({
       }
     },
     changeNewMusicAction(ctx, isNext = true) {
-      // 0. 是否点击切换歌曲置为 true
-      ctx.isChangeBtnClicked = true;
       // 1. 获取当前音乐索引
       let index = ctx.playListIndex;
       // 2. 根据不同的播放模式，获取下一首歌索引
