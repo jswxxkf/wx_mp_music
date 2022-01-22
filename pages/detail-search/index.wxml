@@ -30,6 +30,22 @@
   </view>
 </view>
 
+<!-- 历史搜索记录 -->
+<view class="search-history" wx:if="{{!searchValue.length}}">
+  <area-header title="历史搜索" showRight="{{false}}"></area-header>
+  <view wx:if="{{historyRecords.length}}" class="history-list">
+    <block wx:for="{{historyRecords}}" wx:key="*this">
+      <view
+        class="history-item"
+        bindtap="handleKeywordItemClick"
+        data-keyword="{{item}}"
+        >{{item}}</view
+      >
+    </block>
+  </view>
+  <view wx:else class="no-history">无任何搜索记录</view>
+</view>
+
 <!-- 建议搜索 -->
 <view
   class="search-suggest"

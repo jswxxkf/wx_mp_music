@@ -15,16 +15,19 @@ page {
 }
 
 /* 热门搜索 */
-.search-hot {
+.search-hot,
+.search-history {
   padding: 10rpx 20rpx;
 }
 
-.search-hot .hot-list {
+.search-hot .hot-list,
+.search-history .history-list {
   display: flex;
   flex-wrap: wrap;
 }
 
-.search-hot .tag {
+.search-hot .tag,
+.search-history .history-item {
   font-size: 26rpx;
   background-color: #fff;
   padding: 10rpx 12rpx;
@@ -36,6 +39,15 @@ page {
 
 .search-hot .tag:first-of-type {
   color: #26ce8a;
+}
+
+/* 搜索历史 */
+
+.search-history .no-history {
+  margin-left: 10rpx;
+  margin-top: 20rpx;
+  font-size: 26rpx;
+  color: #aaaaaa;
 }
 
 /* 搜索建议 */

@@ -6,6 +6,8 @@ import {
 } from "../../service/api_search";
 import debounce from "../../utils/debounce";
 import stringToNodes from "../../utils/string2nodes";
+import { updateSearchHistory } from "../../utils/searching";
+import { SEARCH_HISTORY } from "../../constants/search-const";
 
 const debouncedGetSearchSuggest = debounce(getSearchSuggest, 300);
 
@@ -16,17 +18,20 @@ Page({
     suggestSongsNodes: [],
     resultSongs: [],
     searchValue: "",
+    historyRecords: [],
   },
 
   onLoad: function (options) {
     this.getPageData();
   },
 
-  // 网络请求
   getPageData: function () {
+    // 网络请求
     getSearchHot().then((res) => {
       this.setData({ hotKeywords: res.result.hots });
     });
+    // 本地缓存
+    this.setData({ historyRecords: wx.getStorageSync(SEARCH_HISTORY) });
   },
 
   // 事件处理
@@ -65,8 +70,9 @@ Page({
   },
 
   handleSearchAction: function () {
-    // TODO: 保存一下searchValue，做历史搜索记录
     const searchValue = this.data.searchValue;
+    // 存入历史记录
+    this.setData({ historyRecords: updateSearchHistory(searchValue) });
     getSearchResult(searchValue).then((res) => {
       this.setData({ resultSongs: res.result.songs });
     });
@@ -79,5 +85,9 @@ Page({
     this.setData({ searchValue: keyword });
     // 3.发起网络请求
     this.handleSearchAction();
+    // 4.存入历史记录
+    this.setData({
+      historyRecords: updateSearchHistory(keyword),
+    });
   },
 });
