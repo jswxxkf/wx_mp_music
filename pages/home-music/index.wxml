@@ -79,9 +79,7 @@
 <!-- 播放工具栏 -->
 <!-- 用于占位的view -->
 <view class="play-bar-placeholder" wx:if="{{currentSong.id}}"></view>
-<view class="play-bar" 
-      wx:if="{{currentSong.id}}" 
-      bindtap="handlePlayBarClick">
+<view class="play-bar" wx:if="{{currentSong.id}}" bindtap="handlePlayBarClick">
   <view class="left">
     <image
       class="album album-animation"

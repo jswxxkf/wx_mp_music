@@ -9,6 +9,7 @@ const playerStore = new HYEventStore({
   state: {
     isFirstPlay: true, // 是否是第一次播放
     isBgStopped: false, // 是否被后台停止
+    isChangeBtnClicked: false, // 是否点击了上下首切换按钮
     currentSong: {},
     lyricInfos: [],
     currentTime: 0,
@@ -73,6 +74,7 @@ const playerStore = new HYEventStore({
       });
       // 监听播放时间改变
       audioContext.onTimeUpdate(() => {
+        ctx.isChangeBtnClicked = false;
         // 1. 获取当前时间
         const currentTime = audioContext.currentTime * 1000;
         // 2. 根据当前时间修改store中currentTime
@@ -108,9 +110,12 @@ const playerStore = new HYEventStore({
       });
       // 监听用户在后台停止播放
       audioContext.onStop(() => {
-        ctx.lastSong = ctx.currentSong;
-        ctx.isPlaying = false;
-        ctx.isBgStopped = true;
+        // 只有真正的后台停止，才需要暂停播放和记录后台停止状态
+        // 因为切换上下首歌曲也会来到此回调中
+        if (!ctx.isChangeBtnClicked) {
+          ctx.isPlaying = false;
+          ctx.isBgStopped = true;
+        }
       });
     },
     changeMusicPlayStatusAction(ctx, isPlaying = true) {
@@ -125,6 +130,8 @@ const playerStore = new HYEventStore({
       }
     },
     changeNewMusicAction(ctx, isNext = true) {
+      // 0. 是否点击切换歌曲置为 true
+      ctx.isChangeBtnClicked = true;
       // 1. 获取当前音乐索引
       let index = ctx.playListIndex;
       // 2. 根据不同的播放模式，获取下一首歌索引
