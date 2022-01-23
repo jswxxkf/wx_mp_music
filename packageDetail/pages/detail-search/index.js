@@ -3,11 +3,11 @@ import {
   getSearchHot,
   getSearchSuggest,
   getSearchResult,
-} from "../../service/api_search";
-import debounce from "../../utils/debounce";
-import stringToNodes from "../../utils/string2nodes";
-import { updateSearchHistory } from "../../utils/searching";
-import { SEARCH_HISTORY } from "../../constants/search-const";
+} from "../../../service/api_search";
+import debounce from "../../../utils/debounce";
+import stringToNodes from "../../../utils/string2nodes";
+import { updateSearchHistory } from "../../../utils/searching";
+import { SEARCH_HISTORY } from "../../../constants/search-const";
 
 const debouncedGetSearchSuggest = debounce(getSearchSuggest, 300);
 

@@ -29,7 +29,7 @@ Component({
       const id = this.properties.item.id;
       // 1. 页面跳转
       wx.navigateTo({
-        url: `/pages/music-player/index?id=${id}`,
+        url: `/packagePlayer/pages/music-player/index?id=${id}`,
       });
       // 2. 派发playStore中请求数据的action(请求数据+其他操作)
       playerStore.dispatch("playMusicWithSongIdAction", { id });

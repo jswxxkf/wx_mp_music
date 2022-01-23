@@ -1,5 +1,8 @@
 // pages/detail-albums/index.js
-import { getSongMenu, getHotRankingCatagories } from "../../service/api_music";
+import {
+  getSongMenu,
+  getHotRankingCatagories,
+} from "../../../service/api_music";
 
 Page({
   data: {
@@ -59,7 +62,7 @@ Page({
   handleAlbumItemClick: function (event) {
     const id = event.currentTarget.dataset.id;
     wx.navigateTo({
-      url: `/pages/detail-songs/index?type=menu&id=${id}`,
+      url: `/packageDetail/pages/detail-songs/index?type=menu&id=${id}`,
     });
   },
 });

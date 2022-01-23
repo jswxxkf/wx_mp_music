@@ -128,11 +128,10 @@ const playerStore = new HYEventStore({
       if (ctx.isPlaying && ctx.isBgStopped) {
         audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`;
         audioContext.title = ctx.currentSong.name;
-      }
-      ctx.isPlaying ? audioContext.play() : audioContext.pause();
-      if (ctx.isBgStopped) {
+        audioContext.startTime = ctx.currentTime / 1000;
         ctx.isBgStopped = false;
       }
+      ctx.isPlaying ? audioContext.play() : audioContext.pause();
     },
     changeNewMusicAction(ctx, isNext = true) {
       // 1. 获取当前音乐索引

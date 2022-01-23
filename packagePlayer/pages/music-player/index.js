@@ -1,5 +1,5 @@
 // pages/music-player/index.js
-import { audioContext, playerStore } from "../../store/index";
+import { audioContext, playerStore } from "../../../store/index";
 
 const playModeNames = ["order", "repeat", "random"];
 
@@ -112,6 +112,59 @@ Page({
   },
 
   // ======================== 数据监听 =======================
+  // 监听到一些不太频繁更新的状态改变后的处理函数
+  handleInfrequentStatesChange: function ({
+    currentSong,
+    durationTime,
+    lyricInfos,
+    isPureMusic,
+    playListSongs,
+  }) {
+    if (currentSong !== undefined) this.setData({ currentSong });
+    if (durationTime !== undefined) this.setData({ durationTime });
+    if (lyricInfos !== undefined) this.setData({ lyricInfos });
+    if (isPureMusic !== undefined) this.setData({ isPureMusic });
+    if (playListSongs !== undefined) this.setData({ playListSongs });
+  },
+  // 监听到一些频繁更新状态改变后的处理函数
+  handleFrequentStatesChange: function ({
+    currentTime,
+    currentLyricIndex,
+    currentLyricText,
+  }) {
+    // 时间变化
+    if (currentTime !== undefined && !this.data.isSliderChanging) {
+      const sliderPercent = (currentTime / this.data.durationTime) * 100;
+      this.setData({ sliderValue: sliderPercent, currentTime });
+    }
+    // 歌词变化
+    if (currentLyricIndex !== undefined) {
+      this.setData({
+        currentLyricIndex,
+        lyricScrollTop:
+          currentLyricIndex *
+          Math.floor((60 * getApp().globalData.screenWidth) / 375),
+      });
+    }
+    if (currentLyricText !== undefined) {
+      this.setData({ currentLyricText });
+    }
+  },
+  // 监听到一些控制类状态改变后的处理函数
+  handleCtrlStatesChange: function ({ playModeIndex, isPlaying }) {
+    if (playModeIndex !== undefined) {
+      this.setData({
+        playModeIndex,
+        playModeName: playModeNames[playModeIndex],
+      });
+    }
+    if (isPlaying !== undefined) {
+      this.setData({
+        isPlaying,
+        playingName: isPlaying ? "pause" : "resume",
+      });
+    }
+  },
   setupPlayerStoreListener: function () {
     // 1.监听playListSongs,currentSong,durationTime,lyricInfos,isPureMusic
     playerStore.onStates(
@@ -122,62 +175,38 @@ Page({
         "isPureMusic",
         "playListSongs",
       ],
-      ({
-        currentSong,
-        durationTime,
-        lyricInfos,
-        isPureMusic,
-        playListSongs,
-      }) => {
-        if (currentSong !== undefined) this.setData({ currentSong });
-        if (durationTime !== undefined) this.setData({ durationTime });
-        if (lyricInfos !== undefined) this.setData({ lyricInfos });
-        if (isPureMusic !== undefined) this.setData({ isPureMusic });
-        if (playListSongs !== undefined) this.setData({ playListSongs });
-      },
+      this.handleInfrequentStatesChange,
     );
     // 2.监听currentTime,currentLyricIndex,currentLyricText
     playerStore.onStates(
       ["currentTime", "currentLyricIndex", "currentLyricText"],
-      ({ currentTime, currentLyricIndex, currentLyricText }) => {
-        // 时间变化
-        if (currentTime !== undefined && !this.data.isSliderChanging) {
-          const sliderPercent = (currentTime / this.data.durationTime) * 100;
-          this.setData({ sliderValue: sliderPercent, currentTime });
-        }
-        // 歌词变化
-        if (currentLyricIndex !== undefined) {
-          this.setData({
-            currentLyricIndex,
-            lyricScrollTop:
-              currentLyricIndex *
-              Math.floor((60 * getApp().globalData.screenWidth) / 375),
-          });
-        }
-        if (currentLyricText !== undefined) {
-          this.setData({ currentLyricText });
-        }
-      },
+      this.handleFrequentStatesChange,
     );
     // 3.监听播放模式的更新
     playerStore.onStates(
       ["playModeIndex", "isPlaying"],
-      ({ playModeIndex, isPlaying }) => {
-        if (playModeIndex !== undefined) {
-          this.setData({
-            playModeIndex,
-            playModeName: playModeNames[playModeIndex],
-          });
-        }
-        if (isPlaying !== undefined) {
-          this.setData({
-            isPlaying,
-            playingName: isPlaying ? "pause" : "resume",
-          });
-        }
-      },
+      this.handleCtrlStatesChange,
     );
   },
 
-  onUnload: function () {},
+  onUnload: function () {
+    playerStore.offStates(
+      [
+        "currentSong",
+        "durationTime",
+        "lyricInfos",
+        "isPureMusic",
+        "playListSongs",
+      ],
+      this.handleInfrequentStatesChange,
+    );
+    playerStore.offStates(
+      ["playModeIndex", "isPlaying"],
+      this.handleCtrlStatesChange,
+    );
+    playerStore.offStates(
+      ["currentTime", "currentLyricIndex", "currentLyricText"],
+      this.handleFrequentStatesChange,
+    );
+  },
 });

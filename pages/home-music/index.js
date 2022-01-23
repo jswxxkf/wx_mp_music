@@ -54,7 +54,7 @@ Page({
   // 点击搜索框，跳转搜索详情页
   handleSearchClick: function () {
     wx.navigateTo({
-      url: "/pages/detail-search/index",
+      url: "/packageDetail/pages/detail-search/index",
     });
   },
 
@@ -93,7 +93,7 @@ Page({
   // 点击底部播放栏中封面的处理函数
   handlePlayBarClick: function () {
     wx.navigateTo({
-      url: `/pages/music-player/index?id={${this.data.currentSong.id}}`,
+      url: `/packagePlayer/pages/music-player/index?id={${this.data.currentSong.id}}`,
     });
   },
 
@@ -106,7 +106,7 @@ Page({
   handleListSongItemPlay: function (event) {
     const songId = event.detail;
     wx.navigateTo({
-      url: `/pages/music-player/index?id=${songId}`,
+      url: `/packagePlayer/pages/music-player/index?id=${songId}`,
     });
     playerStore.dispatch("playMusicWithSongIdAction", { id: songId });
   },
@@ -114,7 +114,7 @@ Page({
   // 真正跳转进入歌单详情页
   navigateToDetailSongPage: function (rankingName) {
     wx.navigateTo({
-      url: `/pages/detail-songs/index?ranking=${rankingName}&type=rank`,
+      url: `/packageDetail/pages/detail-songs/index?ranking=${rankingName}&type=rank`,
     });
   },
 
