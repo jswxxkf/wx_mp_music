@@ -63,6 +63,7 @@ const playerStore = new HYEventStore({
       audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
       // 从歌曲信息中拿到name，设置为后台播放时的title
       audioContext.title = ctx.currentSong.name;
+      audioContext.startTime = 0;
       audioContext.autoplay = true;
     },
     setupAudioContextListenerAction(ctx) {
