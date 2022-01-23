@@ -1,1 +1,1 @@
-export const SEARCH_HISTORY = "searchHistory";
+export const SEARCH_HISTORY = "search_history";

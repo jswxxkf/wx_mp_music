@@ -47,6 +47,12 @@
           "pathName": "pages/music-player/index",
           "query": "id=1353301300",
           "scene": null
+        },
+        {
+          "name": "home-profile",
+          "pathName": "pages/home-profile/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

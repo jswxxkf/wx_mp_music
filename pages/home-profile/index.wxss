@@ -1,0 +1,53 @@
+/* pages/home-profile/index.wxss */
+page {
+  padding: 0 20rpx;
+}
+
+.user-info,
+.favor-songs,
+.favor-albums {
+  margin-bottom: 50rpx;
+}
+
+.user-info .non-login {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 60rpx;
+}
+
+.user-info .login-prompt {
+  margin: 0 50rpx;
+  height: 100%;
+  line-height: 60rpx;
+}
+
+.user-info .login-button,
+.user-info .logout-button {
+  width: 200rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  margin: 0;
+  padding: 0;
+  background-color: #e4e4e4;
+  border-radius: 16rpx;
+  transform: translateY(0);
+}
+
+.user-info .info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.info .avatar {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 0 50rpx;
+}
+
+.info .nickName {
+  display: flex;
+  align-items: center;
+  margin-right: 100rpx;
+}

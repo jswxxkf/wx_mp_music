@@ -29,10 +29,20 @@ export function checkSessionKey() {
   });
 }
 
+export function getUserInfo() {
+  return new Promise((resolve, reject) => {
+    wx.getUserProfile({
+      desc: "获取用户档案新方式",
+      success: resolve,
+      fail: reject,
+    });
+  });
+}
+
 export function codeToToken(code) {
   return kfLoginRequest.post("/login", { code });
 }
 
-export function checkToken(token) {
-  return kfLoginRequest.post("/auth", {}, { token });
+export function checkToken() {
+  return kfLoginRequest.post("/auth", {}, true);
 }

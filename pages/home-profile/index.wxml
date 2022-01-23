@@ -1,0 +1,35 @@
+<!--pages/home-profile/index.wxml-->
+<view class="user-info">
+  <area-header title="用户信息" showRight="{{false}}"></area-header>
+  <view wx:if="{{!userInfo.nickName}}" class="non-login">
+    <text class="login-prompt">您尚未登录~~</text>
+    <button
+      class="login-button"
+      open-type="getUserInfo"
+      bindtap="handleGetUser"
+    >
+      点此登录
+    </button>
+  </view>
+  <view wx:else class="info">
+    <image
+      class="avatar"
+      src="{{userInfo.avatarUrl}}"
+      mode="aspectFill"
+    ></image>
+    <text class="nickName">{{userInfo.nickName}}</text>
+    <button class="logout-button" bindtap="handleLogoutClick">退出登录</button>
+  </view>
+</view>
+
+<view class="favor-albums">
+  <area-header title="喜爱的歌单" showRight="{{true}}"></area-header>
+  <!-- TODO -->
+  <view class="">此处作为后期扩展能力</view>
+</view>
+
+<view class="favor-songs">
+  <area-header title="喜爱的单曲" showRight="{{true}}"></area-header>
+  <!-- TODO -->
+  <view class="">此处作为后期扩展能力</view>
+</view>
