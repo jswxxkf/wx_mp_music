@@ -25,11 +25,18 @@
 <view class="favor-albums">
   <area-header title="喜爱的歌单" showRight="{{true}}"></area-header>
   <!-- TODO -->
-  <view class="">此处作为后期扩展能力</view>
+  <view class="placeholder">此处作为后期扩展能力</view>
 </view>
 
 <view class="favor-songs">
   <area-header title="喜爱的单曲" showRight="{{true}}"></area-header>
   <!-- TODO -->
-  <view class="">此处作为后期扩展能力</view>
+  <view class="placeholder">此处作为后期扩展能力</view>
+</view>
+
+<view class="promotion">
+  <view class="version">V1.0.0</view>
+  <view class="basic-lib">Basic Library V2.18.0</view>
+  <view class="developer">Developed by KaifengXue</view>
+  <view class="data-service">Data served by CoderWhy</view>
 </view>

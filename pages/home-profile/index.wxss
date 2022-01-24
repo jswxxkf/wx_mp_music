@@ -51,3 +51,20 @@ page {
   align-items: center;
   margin-right: 100rpx;
 }
+
+.favor-albums .placeholder,
+.favor-songs .placeholder {
+  margin-left: 20rpx;
+  font-size: 30rpx;
+  color: #777777;
+}
+
+.promotion {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  line-height: 1.5;
+  color: #777777;
+}
