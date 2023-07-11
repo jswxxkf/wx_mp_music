@@ -1,6 +1,6 @@
 // pages/detail-songs/index.js
 import { rankingStore, playerStore } from "../../../store/index";
-import { getSongMenuDetail } from "../../../service/api_music";
+import { getSongMenuDetail, getSongMenuDetailDynamic } from "../../../service/api_music";
 
 Page({
   /**
@@ -19,9 +19,12 @@ Page({
     const { type, id, ranking } = options;
     this.setData({ type });
     if (type === "menu") {
+      // getSongMenuDetailDynamic(id).then((res) => {
+      //   this.setData({ songInfo: res.playlist });
+      // });
       getSongMenuDetail(id).then((res) => {
-        this.setData({ songInfo: res.playlist });
-      });
+        this.setData({ songInfo: res.playlist })
+      })
     } else if (type === "rank") {
       this.setData({ ranking });
       // 1.获取数据

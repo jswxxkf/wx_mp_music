@@ -1,8 +1,8 @@
 import { TOKEN_KEY } from "../constants/token-const";
 const token = wx.getStorageSync(TOKEN_KEY);
-const BASE_URL = "http://123.207.32.32:9001";
+const BASE_URL = "http://codercba.com:9002";
 
-const LOGIN_BASE_URL = "http://123.207.32.32:3000";
+const LOGIN_BASE_URL = "http://codercba.com:3000";
 
 class KFRequest {
   constructor(baseURL, authHeader = {}) {

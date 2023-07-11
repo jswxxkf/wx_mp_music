@@ -33,10 +33,16 @@ export function getSongMenu(cat = "全部", limit = 6, offset = 0) {
  * 请求歌单详情数据, 如评论数, 是否收藏, 播放数
  * @param {number} id 歌单id
  */
-export function getSongMenuDetail(id) {
+export function getSongMenuDetailDynamic(id) {
   return kfRequest.get("/playlist/detail/dynamic", {
     id,
   });
+}
+
+export function getSongMenuDetail(id) {
+  return kfRequest.get("/playlist/detail", {
+    id,
+  })
 }
 
 /**
